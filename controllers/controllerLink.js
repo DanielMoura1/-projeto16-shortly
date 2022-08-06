@@ -168,7 +168,7 @@ export  async function urlrank(req, res){
     WHERE usuario.id=$1
     GROUP BY usuario.id`, [b[i].id])
     console.log(c.rows)
-    if(c.rows =[]){
+    if(c.rows.length ==0){
       
         c.rows.push({Link:'0'})
        
