@@ -120,10 +120,11 @@ export  async function urlme(req, res){
         FROM usuario WHERE token =$1`,[token])
         console.log('2')
 
-        const urls = await db.query(`SELECT *
+        const urls = await db.query(`SELECT
+         urls.id,urls."shortUrl",urls.url,urls.visualizacao AS "visitCount"
         FROM urls WHERE "usuarioId" =$1`,[usuario.rows[0].id])
         console.log('3')
-
+ 
         const corpo = await db.query(`SELECT usuario.id,usuario.name,"seuUrl".total FROM usuario 
         JOIN "seuUrl" 
         ON usuario.id="seuUrl"."usuarioId"
