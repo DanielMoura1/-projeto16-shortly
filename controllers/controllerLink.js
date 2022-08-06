@@ -148,6 +148,7 @@ export  async function urlme(req, res){
 
 }
 export  async function urlrank(req, res){
+    //try{
     const a =await db.query(`SELECT usuario.id,usuario.name,"seuUrl".total 
     FROM usuario 
     JOIN "seuUrl" 
@@ -155,7 +156,7 @@ export  async function urlrank(req, res){
  `)
     console.log(a.rows)
     let b =a.rows
-    console.log(String( b[0].id))
+   
   
    
   for(let i=0;b.length>i;i++){
@@ -166,6 +167,12 @@ export  async function urlrank(req, res){
     ON usuario.id=urls."usuarioId" 
     WHERE usuario.id=$1
     GROUP BY usuario.id`, [b[i].id])
+    console.log(c.rows)
+    if(c.rows =[]){
+      
+        c.rows.push({Link:'0'})
+       
+    }
     console.log( {id:b[i].id,name:b[i].name,total:b[i].total, link:c.rows[0].Link})
     console.log('oi')
     b[i] ={id:b[i].id,name:b[i].name,linksCount:c.rows[0].Link,visitCount:b[i].total}
@@ -180,8 +187,8 @@ export  async function urlrank(req, res){
         resposta.push(b[i])
     }
     
+ 
     try{
-   
       res.status(200).send(resposta)
 
     }catch(e){
