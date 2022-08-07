@@ -64,7 +64,7 @@ export  async function urlOpen(req, res){
         await db.query(`UPDATE urls SET visualizacao=$1 WHERE id=$2`,[num,resultado.rows[0].id])
         console.log('4')
         const resultado3 = await db.query(`SELECT * FROM
-         "seuUrl" WHERE "usuarioId" =$1`,[resultado.rows[0].usuarioId])
+         urls WHERE "usuarioId" =$1`,[resultado.rows[0].usuarioId])
         
 
          const resultado2 = await db.query(`SELECT * FROM
@@ -72,12 +72,13 @@ export  async function urlOpen(req, res){
 
          let cont =0
          console.log('5')
-         for(let i=0;resultado.rows.length>i;i++){
-            cont = cont+Number(resultado.rows[i].visualizacao)
+         for(let i=0;resultado3.rows.length>i;i++){
+            cont = cont+Number(resultado3.rows[i].visualizacao)
         }
         await db.query(`UPDATE "seuUrl" SET total=$1 WHERE "usuarioId"=$2`,[cont,resultado.rows[0].usuarioId])
          console.log('6')
          console.log(cont)
+         console.log('aqui')
         return res.redirect(resultado.rows[0].url)
     }catch(e){
         console.log('erro cadastro')
