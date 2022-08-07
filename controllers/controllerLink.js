@@ -82,7 +82,7 @@ export  async function urlOpen(req, res){
         return res.redirect(resultado.rows[0].url)
     }catch(e){
         console.log('erro cadastro')
-        return res.status(409).send('já tem esse e-mail')
+        return res.status(409).send('url inválida')
     }
     
 }

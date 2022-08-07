@@ -17,7 +17,13 @@ export  async function cadastro(req, res){
       if(validar.error){
         return res.status(422).send('deu ruim -_-');
       }
-      try{
+     
+        const email= await db.query(`SELECT email FROM
+         usuario WHERE email =$1`,[conta.email])
+         if(email.rows.length !=0){
+          return res.status(409).send('e-mail já existe')
+         }
+         try{
         const senha= bcrypt.hashSync(conta.password,10)
         const token =uuid()
         await db.query(`INSERT INTO usuario(name,email,password,token)
@@ -34,7 +40,7 @@ export  async function cadastro(req, res){
       res.status(201).send(token);
       }catch(e){
         console.log('erro cadastro')
-        return res.status(409).send('já tem esse e-mail')
+        return res.status(409).send('Algum campo vazio ou e-mail inválido ')
     }
 
 }
